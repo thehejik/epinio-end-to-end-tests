@@ -17,6 +17,7 @@
     "unit_tests/first_connexion.spec.ts",
     "unit_tests/installation.spec.ts",
     "unit_tests/menu.spec.ts",
+    "unit_tests/rancher-menu.spec.ts",
     "unit_tests/applications.spec.ts",
     "unit_tests/configurations.spec.ts",
     "unit_tests/namespaces.spec.ts",

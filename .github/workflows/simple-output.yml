@@ -3,11 +3,21 @@ name: simple output test
 on: [push] 
 
 jobs:
-  return-output-by-echo:
+  set-output:
     runs-on: self-hosted
     steps:
-      - name: Output here
+      - name: set variable
+        id: set-var
         run: |
           ## Export information
           MY_IP="8.8.8.8"
           echo "::set-output name=MY_IP::$MY_IP"
+    outputs:
+      MY_IP: ${{ steps.set-var.outputs.MY_IP }}
+  echo-output:
+    runs-on: self-hosted
+    steps:
+      - name: echo variable
+        run: |
+          echo "${{ steps.set-var.outputs.MY_IP }}"
+

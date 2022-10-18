@@ -16,6 +16,7 @@ jobs:
       MY_IP: ${{ steps.set-var.outputs.MY_IP }}
   echo-output:
     runs-on: self-hosted
+    needs: set-output
     steps:
       - name: echo variable
         run: |

@@ -9,4 +9,5 @@ jobs:
       - name: Output here
         run: |
           ## Export information
-          echo '::set-output name=MY_IP::'"custom_string_value"
+          MY_IP="8.8.8.8"
+          echo "::set-output name=MY_IP::$MY_IP"

@@ -1,5 +1,7 @@
 # This workflow is a reusable one called by other workflows
 name: simple output test
+on: workflow_dispatch
+
 jobs:
   return output by echo:
     runs-on: self-hosted

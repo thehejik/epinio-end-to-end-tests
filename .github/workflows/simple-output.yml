@@ -3,7 +3,7 @@ name: simple output test
 on: [push] 
 
 jobs:
-  return output by echo:
+  return-output-by-echo:
     runs-on: self-hosted
     steps:
       - name: Output here

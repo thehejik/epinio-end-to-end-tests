@@ -2,23 +2,26 @@
 name: simple output test
 on: [push] 
 
-jobs:
-  set-output:
-    runs-on: self-hosted
-    steps:
-      - name: set variable
-        id: set-var
-        run: |
-          ## Export information
-          MY_IP="8.8.8.8"
-          echo "::set-output name=MY_IP::$MY_IP"
-    outputs:
-      MY_IP: ${{ steps.set-var.outputs.MY_IP }}
-  echo-output:
-    runs-on: self-hosted
-    needs: set-output
-    steps:
-      - name: echo variable
-        run: |
-          echo "${{ steps.set-var.outputs.MY_IP }}"
+  jobs:
+    job1:
+      runs-on: self-hosted
 
+      outputs:
+        output1: ${{ steps.step1.outputs.test }}
+        output2: ${{ steps.step2.outputs.test }}
+
+      steps:
+        - id: step1
+          run: echo "::set-output name=test::hello"
+
+        - id: step2
+          run: echo "::set-output name=test::world"
+
+        - name: Display
+          run: echo "${{ steps.step1.outputs.test }}"
+
+    job2:
+      runs-on: self-hosted
+      needs: job1
+      steps:
+        - run: echo ${{ needs.job1.outputs.output1 }} ${{ needs.job1.outputs.output2 }}

@@ -1,7 +1,6 @@
 # This workflow is a reusable one called by other workflows
 name: simple output test
-on: 
-  workflow_dispatch:
+on: [push] 
 
 jobs:
   return output by echo:

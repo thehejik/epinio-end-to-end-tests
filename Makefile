@@ -31,9 +31,9 @@ get-ca: ## Configure Cypress to use the epinio-ca
 create-docker-secret: ## Create docker pull secret to avoid the docker hub rate limit
 	@./scripts/create_docker_secret.sh
 
-prepare-e2e-ci-rancher: install-k3s install-helm install-rancher create-docker-secret get-ca ## Tests
+prepare-e2e-ci-rancher: install-k3s install-helm install-rancher create-docker-secret get-ca upload-kubeconfig ## Tests
 
-prepare-e2e-ci-standalone: install-k3s install-helm install-cert-manager create-docker-secret install-epinio get-ca ## Tests
+prepare-e2e-ci-standalone: install-k3s install-helm install-cert-manager create-docker-secret install-epinio get-ca upload-kubeconfig ## Tests
 
 patch-epinio-ui:
 	@./scripts/patch_epinio-ui.sh
@@ -107,6 +107,9 @@ prepare-cluster:
 	@echo "\n\n****** STEP (2): Deploy cert-manager into cluster..."
 	$(MAKE) install-cert-manager
 	$(MAKE) get-ingress-ip
+
+upload-kubeconfig:
+	@./scripts/create_and_expose_kubeconfig_secret.sh
 
 help: ## Show this Makefile's help
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'

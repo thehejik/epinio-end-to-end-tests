@@ -806,7 +806,6 @@ Cypress.Commands.add('removeHelmRepo', () => {
   cy.confirmDelete();
 });
 
-// Prepare kubernetes kubectl CLI environment
 Cypress.Commands.add('kubectlDeployCli', () => {
   // Verify if this has been done already
   cy.exec(`kubectl cluster-info 2>/dev/null`, {failOnNonZeroExit: false}).then((result) => {

@@ -1,0 +1,24 @@
+name: test-dispatch
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo:
+        description: Specify the repo
+        type: string
+        required: true
+
+jobs:
+  check-runner:
+  runs-on: self-hosted
+  steps:
+    - run: df -h
+    - run: ps auxf
+    - run: sudo dmesg
+    - run: docker ps
+    - run: docker images
+    - run: sudo ss -tupan
+    - env:
+        REPO: ${{ inputs.repo }}
+      run: echo $REPO
+

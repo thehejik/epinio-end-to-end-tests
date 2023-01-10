@@ -9,16 +9,11 @@ on:
         required: true
 
 jobs:
-  check-runner:
+  return-repo:
     runs-on: self-hosted
     steps:
-      - run: df -h
-      - run: ps auxf
-      - run: sudo dmesg
-      - run: docker ps
-      - run: docker images
-      - run: sudo ss -tupan
       - env:
           REPO: ${{ inputs.repo }}
         run: echo $REPO
+        name: echo repo
 

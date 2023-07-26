@@ -839,13 +839,16 @@ Cypress.Commands.add('epinioDeployCli', () => {
     if (result.code != 0) {
       cy.log('Deploying epinio CLI.')
       // Fetch epinio CLI in version used in by epinio-ui
-      if (Cypress.env('ui') == null || Cypress.env('ui') == 'epinio-rancher' ) {
+      // TODO: check the condition below, maybe it can be just Cypress.env('ui') != 'rancher'
+      if (Cypress.env('ui') == null || Cypress.env('ui') == '' || Cypress.env('ui') == 'epinio-rancher' ) {
         cy.visit('/');
         cy.get('.version.text-muted > a').should('have.attr', 'href', '/epinio/about').invoke('text').then((version) => {
+          // TODO: use first 6 chars from version string
           version = version.trim();
           cy.exec(`
             # Check if cypress is running inside container and exit if not
             grep -q docker /proc/1/cgroup || exit 0
+            # TODO: or just use built epinio binary here?
             wget https://github.com/epinio/epinio/releases/download/${version}/epinio-linux-x86_64 -O /usr/local/bin/epinio
             chmod +x /usr/local/bin/epinio
           `, {timeout: 31000}).its('code').should('eq', 0);

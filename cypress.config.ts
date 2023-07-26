@@ -1,4 +1,18 @@
 import { defineConfig } from 'cypress'
+import { exec, spawn } from 'child_process'
+
+const startServer = async function (ExecuteCommandWithPath: string) {
+  spawn(ExecuteCommandWithPath,
+      (error, stdout, stderr) => {
+          console.log(stdout);
+          console.log(stderr);
+          if (error !== null) {
+              console.log(`exec error: ${error}`);
+              return false;
+          }
+          return true;
+      });
+};
 
 // export default defineConfig({
 export default defineConfig({
@@ -9,6 +23,7 @@ export default defineConfig({
     reportFilename: '[name]-report_[status]_[datetime]',
     timestamp: 'shortDate',
   },
+  morgan: false,
   clientCertificates: [
     {
       url: 'https://*',
@@ -31,7 +46,15 @@ export default defineConfig({
           return null
         },
       })
-      return require('./cypress/plugins/index.ts')(on, config)   
+      on("task", {
+        execbg(ExecuteCommandWithPath) {
+          return new Promise((resolve, reject) => {
+            startServer(ExecuteCommandWithPath);
+            resolve(false);
+          });
+        }
+      })
+      return require('./cypress/plugins/index.ts')(on, config)
     },
     experimentalSessionAndOrigin: true,
     specPattern:
